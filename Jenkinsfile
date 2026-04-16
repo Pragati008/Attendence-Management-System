@@ -67,7 +67,7 @@ pipeline {
                 \$conf = \$conf -replace 'server localhost:\\d+;', 'server localhost:%GREEN_PORT%;'
                 \$conf | Set-Content C:\\Users\\shash\\Downloads\\nginx-1.30.0\\nginx-1.30.0\\conf\\nginx.conf
                 """
-                bat 'C:\\Users\\shash\\Downloads\\nginx-1.30.0\\nginx-1.30.0\\nginx.exe -s reload'
+                bat 'C:\\Users\\shash\\Downloads\\nginx-1.30.0\\nginx-1.30.0\\nginx.exe -p C:\\Users\\shash\\Downloads\\nginx-1.30.0\\nginx-1.30.0 -s reload'
             }
         }
         stage('Stop Blue') {
