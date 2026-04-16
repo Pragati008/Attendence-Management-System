@@ -63,11 +63,13 @@ pipeline {
         stage('Switch Traffic to Green') {
             steps {
                 powershell """
-                (Get-Content C:\\nginx\\nginx-1.26.3\\conf\\nginx.conf) -replace '8501','8502' | Set-Content C:\\nginx\\nginx-1.26.3\\conf\\nginx.conf
+                \$conf = Get-Content C:\\nginx\\nginx-1.26.3\\conf\\nginx.conf
+                \$conf = \$conf -replace 'server localhost:\\d+;', 'server localhost:%GREEN_PORT%;'
+                \$conf | Set-Content C:\\nginx\\nginx-1.26.3\\conf\\nginx.conf
                 """
                 bat 'C:\\nginx\\nginx-1.26.3\\nginx.exe -s reload'
             }
-}
+        }
         stage('Stop Blue') {
             steps {
                 bat '''
