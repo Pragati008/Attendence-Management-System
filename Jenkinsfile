@@ -72,11 +72,12 @@ pipeline {
         }
         stage('Stop Blue') {
             steps {
-                bat '''
-                docker stop %BLUE_NAME%
-                docker rm %BLUE_NAME%
-                '''
-            }
+        bat '''
+            docker stop %BLUE_NAME% 2>nul || echo No blue to stop
+            docker rm %BLUE_NAME% 2>nul || echo No blue to remove
+            docker rename %GREEN_NAME% %BLUE_NAME%
+        '''
+    }
         }
 
     }
