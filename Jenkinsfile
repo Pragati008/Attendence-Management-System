@@ -42,9 +42,9 @@ pipeline {
         stage('Deploy Green') {
             steps {
                 bat '''
-                    FOR /F "tokens=*" %%i IN ('docker ps -q -f name=%GREEN_NAME%') DO docker stop %%i
-                    FOR /F "tokens=*" %%i IN ('docker ps -aq -f name=%GREEN_NAME%') DO docker rm %%i
-                    docker run -d --name %GREEN_NAME% -p %GREEN_PORT%:8501 %IMAGE_NAME%:%BUILD_NUMBER%
+                   FOR /F "tokens=*" %%i IN ('docker ps -q --filter "name=^%GREEN_NAME%$"') DO docker stop %%i
+                   FOR /F "tokens=*" %%i IN ('docker ps -aq --filter "name=^%GREEN_NAME%$"') DO docker rm %%i
+                   docker run -d --name %GREEN_NAME% -p %GREEN_PORT%:8501 %IMAGE_NAME%:%BUILD_NUMBER% 
                 '''
             }
         }
